@@ -65,4 +65,4 @@ async def on_ready():
     print(f'Sesión iniciada como {client.user}')
     client.loop.create_task(join_voice_channel())
 
-client.run(os.getenv("DISCORD_TOKEN")
+client.run(os.getenv("DISCORD_TOKEN"))
