@@ -26,43 +26,23 @@ intents.guilds = True
 client = discord.Client(intents=intents)
 CANAL_VOZ_ID = 1546286007308255239
 
-async def join_voice_channel():
-    await client.wait_until_ready()
-    print("El bot está listo, buscando canal de voz directamente en la API...")
-    
-    while not client.is_closed():
-        try:
-            # Verificamos si ya está conectado a algún canal de voz
-            if client.voice_clients:
-                for vc in client.voice_clients:
-                    if vc.channel.id == CANAL_VOZ_ID and vc.is_connected():
-                        print("El bot ya se encuentra en el canal de voz correctamente.")
-                        await asyncio.sleep(30)
-                        continue
-
-            # Buscamos el canal directamente usando la API (ignorando la memoria caché)
-            channel = await client.fetch_channel(CANAL_VOZ_ID)
-            
-            if channel:
-                print(f"Canal encontrado: {channel.name}. Intentando conectar...")
-                # Si ya hay otra conexión fantasma, la cerramos primero
-                for vc in client.voice_clients:
-                    await vc.disconnect()
-                
-                await channel.connect()
-                print(f'¡ÉXITO TOTAL! El bot se ha metido al canal de voz: {channel.name}')
-            else:
-                print('No se pudo encontrar el canal.')
-                
-        except Exception as e:
-            print(f'Error al intentar conectar a la voz: {e}')
-        
-        # Espera 30 segundos antes de reintentar o verificar estado
-        await asyncio.sleep(30)
-
 @client.event
 async def on_ready():
-    print(f'Sesión iniciada como {client.user}')
-    client.loop.create_task(join_voice_channel())
+    print(f'--> ¡Sesión iniciada correctamente como {client.user}!')
+    print('--> Intentando conectar al canal de voz inmediatamente...')
+    
+    # Esperamos 3 segunditos para asegurar estabilidad de la red
+    await asyncio.sleep(3)
+    
+    try:
+        channel = await client.fetch_channel(CANAL_VOZ_ID)
+        if channel:
+            print(f'--> ¡Canal encontrado: {channel.name}! Entrando...')
+            await channel.connect()
+            print('--> ¡ÉXITO TOTAL! El bot ya está en el canal de voz.')
+        else:
+            print('--> Error: El canal devolvió None.')
+    except Exception as e:
+        print(f'--> ERROR CRÍTICO al conectar a la voz: {e}')
 
 client.run(os.getenv("DISCORD_TOKEN"))
