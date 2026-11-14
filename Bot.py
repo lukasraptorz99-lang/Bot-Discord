@@ -19,30 +19,33 @@ def run_web_server():
 threading.Thread(target=run_web_server, daemon=True).start()
 # -------------------------------------------------------------------
 
-intents = discord.Intents.default()
-intents.voice_states = True
-intents.guilds = True
-
+intents = discord.Intents.all()
 client = discord.Client(intents=intents)
+
 CANAL_VOZ_ID = 1546286007308255239
 
 @client.event
+async def on_connect():
+    print(">>> [CONECTADO] El bot ha establecido conexión con los servidores de Discord.")
+
+@client.event
 async def on_ready():
-    print(f'--> ¡Sesión iniciada correctamente como {client.user}!')
-    print('--> Intentando conectar al canal de voz inmediatamente...')
-    
-    # Esperamos 3 segunditos para asegurar estabilidad de la red
-    await asyncio.sleep(3)
-    
+    print(f'>>> [LISTO] Sesión iniciada como {client.user.name}')
     try:
+        print(f'>>> Buscando canal ID: {CANAL_VOZ_ID}...')
         channel = await client.fetch_channel(CANAL_VOZ_ID)
         if channel:
-            print(f'--> ¡Canal encontrado: {channel.name}! Entrando...')
+            print(f'>>> ¡Canal encontrado: {channel.name}! Conectando a voz...')
             await channel.connect()
-            print('--> ¡ÉXITO TOTAL! El bot ya está en el canal de voz.')
+            print('>>> ¡ÉXITO! El bot ya está en el canal de voz.')
         else:
-            print('--> Error: El canal devolvió None.')
+            print('>>> Error: No se encontró el canal.')
     except Exception as e:
-        print(f'--> ERROR CRÍTICO al conectar a la voz: {e}')
+        print(f'>>> ERROR AL CONECTAR A VOZ: {e}')
 
-client.run(os.getenv("DISCORD_TOKEN"))
+token = os.getenv("DISCORD_TOKEN")
+if not token:
+    print(">>> ERROR: No se encontró la variable de entorno DISCORD_TOKEN.")
+else:
+    client.run(token)
+    
