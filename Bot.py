@@ -27,7 +27,8 @@ intents.guilds = True
 
 client = discord.Client(intents=intents)
 
-CANAL_VOZ_ID = 1546286007308255238
+# ID corregido de tu canal de voz
+CANAL_VOZ_ID = 1546286007308255239
 
 @client.event
 async def on_ready():
