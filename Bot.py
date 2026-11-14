@@ -30,4 +30,4 @@ async def on_ready():
         print('No se encontró el canal de voz. Revisa que el ID sea correcto y que el bot esté en el servidor.')
 
 # AQUÍ PEGAS TU TOKEN (Reemplaza este texto por tu token real o el nuevo que restaures)
-client.run('MTU3MTIwNzc5NzYzNzUxMzI1Ng.GPJryX.8QAvSVE-UirUk4EbS9FjUa0CCf7XH7c8RI2XN4')
+client.run('MTU3MTIwNzc5NzYzNzUxMzI1Ng.Gh0Slq.btN7i5wAOC8MWY9-qLXVCncg86v_rIVPAaLbvo')
