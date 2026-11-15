@@ -1,8 +1,20 @@
+import ctypes
+import ctypes.util
 import discord
 import asyncio
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import threading
+
+# Intentamos cargar opus manualmente para evitar el error de la librería
+if not discord.opus.is_loaded():
+    for lib in ["libopus.so.0", "libopus.so", "libopus-0.dll", "libopus"]:
+        try:
+            discord.opus.load_opus(lib)
+            print(f">>> [OPUS] ¡Librería {lib} cargada con éxito manualmente!", flush=True)
+            break
+        except Exception:
+            pass
 
 print(">>> [INICIO] El script se está ejecutando correctamente...", flush=True)
 
