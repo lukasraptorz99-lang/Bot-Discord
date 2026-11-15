@@ -15,7 +15,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # IDs de los canales (asegúrate de poner los correctos si son distintos)
 VOICE_CHANNEL_ID = 1546286007308255239  # ID de tu canal de voz
-TEXT_CHANNEL_ID = 1546286007308255239   # ID de tu canal de texto para los ruidos
+TEXT_CHANNEL_ID = 1546286007308255234  # ID de tu canal de texto para los ruidos
 
 @bot.event
 async def on_ready():
