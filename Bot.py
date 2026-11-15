@@ -4,7 +4,7 @@ import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import threading
 
-print(">>> [INICIO] El script se está ejecutando correctamente...")
+print(">>> [INICIO] El script se está ejecutando correctamente...", flush=True)
 
 # --- Mini servidor web invisible para Render ---
 class SimpleHandler(BaseHTTPRequestHandler):
@@ -15,11 +15,10 @@ class SimpleHandler(BaseHTTPRequestHandler):
 
 def run_web_server():
     port = int(os.getenv("PORT", 10000))
-    print(f">>> [WEB] Iniciando servidor web en el puerto {port}...")
+    print(f">>> [WEB] Iniciando servidor web en el puerto {port}...", flush=True)
     server = HTTPServer(('0.0.0.0', port), SimpleHandler)
     server.serve_forever()
 
-# Lanzamos el servidor web en segundo plano
 threading.Thread(target=run_web_server, daemon=True).start()
 
 intents = discord.Intents.default()
@@ -31,24 +30,24 @@ CANAL_VOZ_ID = 1546286007308255239
 
 @client.event
 async def on_ready():
-    print(f'>>> [DISCORD] ¡Sesión iniciada con éxito como {client.user}!')
+    print(f'>>> [DISCORD] ¡Sesión iniciada con éxito como {client.user}!', flush=True)
     await asyncio.sleep(3)
     try:
-        print(f'>>> [VOZ] Buscando canal ID: {CANAL_VOZ_ID}...')
+        print(f'>>> [VOZ] Buscando canal ID: {CANAL_VOZ_ID}...', flush=True)
         channel = await client.fetch_channel(CANAL_VOZ_ID)
         if channel:
-            print(f'>>> [VOZ] ¡Canal encontrado ({channel.name})! Conectando...')
+            print(f'>>> [VOZ] ¡Canal encontrado ({channel.name})! Conectando...', flush=True)
             await channel.connect()
-            print('>>> [VOZ] ¡ÉXITO! El bot ya entró al canal de voz.')
+            print('>>> [VOZ] ¡ÉXITO! El bot ya entró al canal de voz.', flush=True)
         else:
-            print('>>> [VOZ] Error: No se encontró el canal.')
+            print('>>> [VOZ] Error: No se encontró el canal.', flush=True)
     except Exception as e:
-        print(f'>>> [ERROR CRÍTICO] {e}')
+        print(f'>>> [ERROR CRÍTICO] {e}', flush=True)
 
 token = os.getenv("DISCORD_TOKEN")
 if not token:
-    print(">>> [ERROR] Falta la variable DISCORD_TOKEN en Render.")
+    print(">>> [ERROR] Falta la variable DISCORD_TOKEN en Render.", flush=True)
 else:
-    print(">>> [DISCORD] Conectando a la pasarela de Discord...")
+    print(">>> [DISCORD] Conectando a la pasarela de Discord...", flush=True)
     client.run(token)
     
