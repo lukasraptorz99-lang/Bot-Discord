@@ -6,23 +6,7 @@ primary_region = "ams"
 
 [http_service]
   internal_port = 8080
-  force_https = true
   auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
-  processes = ["app"]
-
-[[services]]
-  protocol = "tcp"
-  internal_port = 8080
   
-  [[services.ports]]
-    port = 80
-  [[services.ports]]
-    port = 443
-
-  [services.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
-    
